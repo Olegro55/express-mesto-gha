@@ -46,4 +46,4 @@
 * Node.js, Express, MongoDB и библиотека Mongoose, Postman 
 * ...и другие приложения
 
-Ссылка на репозиторий: [https://Olegro55.github.io/mesto/](https://github.com/Olegro55/express-mesto-gha)
+Ссылка на репозиторий: [MESTO 13-15PR](https://github.com/Olegro55/express-mesto-gha)
