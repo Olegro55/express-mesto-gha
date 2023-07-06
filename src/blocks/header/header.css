@@ -1,0 +1,35 @@
+.header {
+  display: grid;
+  grid-template-columns: 1fr min-content min-content;
+  align-items: center;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 45px 0 40px 0;
+  border-bottom: 1px solid rgba(84, 84, 84, 0.7);
+}
+
+@media screen and (max-width: 1024px) {
+  .header {
+    width: 85.94%;
+  }
+}
+
+@media screen and (max-width: 846px) {
+  .header {
+    width: 727px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    width: calc(100% - 19 * 2px);
+  }
+}
+
+@media screen and (max-width: 622px) {
+  .header {
+    padding-bottom: 31px;
+    width: 100%;
+    margin: 0;
+  }
+}

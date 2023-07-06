@@ -1,0 +1,21 @@
+.popup__item {
+  width: 100%;
+  border: 0;
+  outline: none;
+  padding: 0 0 9px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+}
+
+.popup__item_error {
+  border-color: #ff0000;
+}
+
+@media screen and (max-width: 622px) {
+  .popup__item {
+    width: 238px;
+  }
+}

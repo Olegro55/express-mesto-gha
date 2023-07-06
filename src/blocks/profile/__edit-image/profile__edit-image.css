@@ -1,0 +1,15 @@
+.profile__edit-image {
+  position: absolute;
+  height: 120px;
+  width: 120px;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 50%;
+}
+
+.profile__edit-image:hover {
+    background: rgba(0,0,0,.75) url(../../../images/editavatar.svg) no-repeat 50%;
+    cursor: pointer;
+}
