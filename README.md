@@ -28,6 +28,9 @@
 * Медиазапросы @media
 * DOM, JavaScript, ООП, ES6 Modules, Webpack, API, JSX
 * REACT, функциональные и классовые компоненты, хуки
+* Серверная разработка на Node.js и фреймворк express.js
+* Базы данных
+* Обработка ошибок
 
 ### Цель проекта
 
@@ -40,6 +43,7 @@
 * [Visual Studio](https://visualstudio.myproload.com/)
 * Браузерное расширение Perfect Pixel
 * [Генератор HTML-дерева](https://yoksel.github.io/html-tree/)
+* Node.js, Express, MongoDB и библиотека Mongoose, Postman 
 * ...и другие приложения
 
 Проект доступен по ссылке: [Место](https://Olegro55.github.io/mesto/)
