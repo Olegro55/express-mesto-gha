@@ -1,33 +1,59 @@
 const User = require('../models/user');
 
-const getUsers = (_, res, next) => {
+const getUsers = (_, res) => {
   User.find({})
     .then((users) => res.send(users))
-    .catch((next));
+    .catch(res.status(500).send({ message: 'На сервере произошла ошибка' }));
 };
 
-const getUser = (req, res, next) => {
-  User.findById(req.params.userId)
+const getUser = (req, res) => {
+  User.findById(req.params.userId).orFail()
     .then((user) => res.send(user))
-    .catch((next));
+    .catch((err) => {
+      if (err.name === 'DocumentNotFoundError') {
+        return res.status(404).send({ message: 'Пользователь по указанному _id не найден.' });
+      }
+      return res.status(500).send({ message: 'На сервере произошла ошибка' });
+    });
 };
 
-const createUser = (req, res, next) => {
+const createUser = (req, res) => {
   User.create(req.body)
     .then((user) => res.send(user))
-    .catch((next));
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        return res.status(400).send({ message: 'Переданы некорректные данные при создании пользователя.' });
+      }
+      return res.status(500).send({ message: 'На сервере произошла ошибка' });
+    });
 };
 
-const updateUser = (req, res, next) => {
-  User.findByIdAndUpdate(req.user._id, req.body, { new: true })
+const updateUser = (req, res) => {
+  User.findByIdAndUpdate(req.user._id, req.body, { new: true }).orFail()
     .then((user) => res.send(user))
-    .catch((next));
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        return res.status(400).send({ message: 'Переданы некорректные данные при обновлении профиля.' });
+      }
+      if (err.name === 'DocumentNotFoundError') {
+        return res.status(404).send({ message: 'Пользователь по указанному _id не найден.' });
+      }
+      return res.status(500).send({ message: 'На сервере произошла ошибка' });
+    });
 };
 
-const updateAvatar = (req, res, next) => {
+const updateAvatar = (req, res) => {
   User.findByIdAndUpdate(req.user._id, req.body, { new: true })
     .then((user) => res.send(user))
-    .catch((next));
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        return res.status(400).send({ message: 'Переданы некорректные данные при обновлении аватара.' });
+      }
+      if (err.name === 'DocumentNotFoundError') {
+        return res.status(404).send({ message: 'Пользователь по указанному _id не найден.' });
+      }
+      return res.status(500).send({ message: 'На сервере произошла ошибка' });
+    });
 };
 
 module.exports = {
