@@ -18,8 +18,22 @@ const createUser = (req, res, next) => {
     .catch((next));
 };
 
+const updateUser = (req, res, next) => {
+  User.findByIdAndUpdate(req.user._id, req.body, { new: true })
+    .then((user) => res.send(user))
+    .catch((next));
+};
+
+const updateAvatar = (req, res, next) => {
+  User.findByIdAndUpdate(req.user._id, req.body, { new: true })
+    .then((user) => res.send(user))
+    .catch((next));
+};
+
 module.exports = {
   getUsers,
   getUser,
   createUser,
+  updateUser,
+  updateAvatar,
 };

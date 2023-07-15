@@ -4,18 +4,17 @@ const {
   getCards,
   createCard,
   deleteCard,
-  // likeCard,
-  // dislikeCard,
+  likeCard,
+  dislikeCard,
 } = require('../controllers/cards');
 
 router.get('/', getCards);
 
 router.post('/', createCard);
 
+router.put('/:cardId/likes', likeCard);
+
 router.delete('/:cardId', deleteCard);
-
-// router.put('/:cardId/likes', celebrates.checkIdCard, likeCard);
-
-// router.delete('/:cardId/likes', celebrates.checkIdCard, dislikeCard);
+router.delete('/:cardId/likes', dislikeCard);
 
 module.exports = router;
