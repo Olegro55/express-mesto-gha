@@ -10,7 +10,7 @@ const getUser = (req, res) => {
   User.findById(req.params.userId).orFail()
     .then((user) => res.send(user))
     .catch((err) => {
-      if (err.name === 'DocumentNotFoundError') {
+      if (err.name === 'DocumentNotFoundError' || err.name === 'CastError') {
         return res.status(404).send({ message: 'Пользователь по указанному _id не найден.' });
       }
       return res.status(500).send({ message: 'На сервере произошла ошибка' });
@@ -29,7 +29,7 @@ const createUser = (req, res) => {
 };
 
 const updateUser = (req, res) => {
-  User.findByIdAndUpdate(req.user._id, req.body, { new: true }).orFail()
+  User.findByIdAndUpdate(req.user._id, req.body, { new: true, runValidators: true }).orFail()
     .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -43,7 +43,7 @@ const updateUser = (req, res) => {
 };
 
 const updateAvatar = (req, res) => {
-  User.findByIdAndUpdate(req.user._id, req.body, { new: true })
+  User.findByIdAndUpdate(req.user._id, req.body, { new: true, runValidators: true })
     .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
