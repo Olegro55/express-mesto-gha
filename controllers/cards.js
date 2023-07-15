@@ -27,6 +27,9 @@ const deleteCard = (req, res) => {
       if (err.name === 'DocumentNotFoundError') {
         return res.status(404).send({ message: 'Карточка с указанным _id не найдена.' });
       }
+      if (err.name === 'CastError') {
+        return res.status(400).send({ message: 'Переданы некорректные данные.' });
+      }
       return res.status(500).send({ message: 'На сервере произошла ошибка' });
     });
 };
@@ -39,7 +42,7 @@ const likeCard = (req, res) => {
   ).orFail()
     .then((card) => res.send(card))
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err.name === 'ValidationError' || err.name === 'CastError') {
         return res.status(400).send({ message: 'Переданы некорректные данные для постановки/снятии лайка.' });
       }
       if (err.name === 'DocumentNotFoundError') {
@@ -57,7 +60,7 @@ const dislikeCard = (req, res) => {
   ).orFail()
     .then((card) => res.send(card))
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err.name === 'ValidationError' || err.name === 'CastError') {
         return res.status(400).send({ message: 'Переданы некорректные данные для постановки/снятии лайка.' });
       }
       if (err.name === 'DocumentNotFoundError') {
