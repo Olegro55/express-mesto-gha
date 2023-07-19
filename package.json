@@ -11,7 +11,7 @@
     "lint": "eslint \"**/*.js\" "
   },
   "keywords": [],
-  "author": "",
+  "author": "Oleg Trusov",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^8.44.0",
