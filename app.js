@@ -1,8 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-const userRouter = require('./routes/user');
-const cardRouter = require('./routes/card');
+const routes = require('./routes');
 
 const { PORT = 3000 } = process.env;
 
@@ -20,8 +19,6 @@ app.use((req, _, next) => {
   next();
 });
 
-app.use('/users', userRouter);
-app.use('/cards', cardRouter);
-app.use('*', (_, res) => { res.status(404).send({ message: 'Страница не найдена' }); });
+app.use(routes);
 
 app.listen(PORT);
