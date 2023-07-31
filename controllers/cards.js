@@ -1,4 +1,4 @@
-const responseCodes = require('../utils/constants');
+const { statusCodes } = require('../utils/constants');
 const {
   BadRequestError,
   NotFoundError,
@@ -17,7 +17,7 @@ const createCard = (req, res, next) => {
   const { name, link } = req.body;
 
   Card.create({ name, link, owner })
-    .then((card) => res.status(responseCodes.CREATED).send(card))
+    .then((card) => res.status(statusCodes.CREATED).send(card))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Переданы некорректные данные при создании карточки.'));
