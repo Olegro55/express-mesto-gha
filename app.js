@@ -1,12 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-const routes = require('./routes');
+const { createUser, login } = require('./controllers/users');
 const auth = require('./middlewares/auth');
-const {
-  createUser,
-  login,
-} = require('./controllers/users');
+const error = require('./middlewares/error');
+const routes = require('./routes');
 
 const { PORT = 3000 } = process.env;
 
@@ -22,5 +20,7 @@ app.post('/signup', createUser);
 app.use(auth);
 
 app.use(routes);
+
+app.use(error);
 
 app.listen(PORT);

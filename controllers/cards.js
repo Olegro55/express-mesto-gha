@@ -1,13 +1,18 @@
-const { Card } = require('../models/card');
 const responseCodes = require('../utils/constants');
+const {
+  BadRequestError,
+  NotFoundError,
+  ForbiddenError,
+} = require('../errors');
+const { Card } = require('../models/card');
 
-const getCards = (_, res) => {
+const getCards = (_, res, next) => {
   Card.find({})
     .then((cards) => res.send(cards))
-    .catch(() => res.status(responseCodes.INTERNAL_SERVER_ERROR).send({ message: 'На сервере произошла ошибка' }));
+    .catch(next());
 };
 
-const createCard = (req, res) => {
+const createCard = (req, res, next) => {
   const owner = req.user._id;
   const { name, link } = req.body;
 
@@ -15,33 +20,33 @@ const createCard = (req, res) => {
     .then((card) => res.status(responseCodes.CREATED).send(card))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        return res.status(responseCodes.BAD_REQUEST).send({ message: 'Переданы некорректные данные при создании карточки.' });
+        next(new BadRequestError('Переданы некорректные данные при создании карточки.'));
       }
-      return res.status(responseCodes.INTERNAL_SERVER_ERROR).send({ message: 'На сервере произошла ошибка' });
+      next();
     });
 };
 
-const deleteCard = (req, res) => {
+const deleteCard = (req, res, next) => {
   Card.findById(req.params.cardId).orFail()
     .then((deletedCard) => {
       if (deletedCard.owner.toString() !== req.user._id) {
-        return res.status(responseCodes.FORBIDDEN).send({ message: 'Forbidden.' });
+        next(new ForbiddenError('Forbidden.'));
       }
 
       return res.send(deletedCard);
     })
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
-        return res.status(responseCodes.NOT_FOUND).send({ message: 'Карточка с указанным _id не найдена.' });
+        next(new NotFoundError('Карточка с указанным _id не найдена.'));
       }
       if (err.name === 'CastError') {
-        return res.status(responseCodes.BAD_REQUEST).send({ message: 'Переданы некорректные данные.' });
+        next(new BadRequestError('Переданы некорректные данные.'));
       }
-      return res.status(responseCodes.INTERNAL_SERVER_ERROR).send({ message: 'На сервере произошла ошибка' });
+      next();
     });
 };
 
-const likeCard = (req, res) => {
+const likeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $addToSet: { likes: req.user._id } },
@@ -50,16 +55,16 @@ const likeCard = (req, res) => {
     .then((card) => res.send(card))
     .catch((err) => {
       if (err.name === 'CastError') {
-        return res.status(responseCodes.BAD_REQUEST).send({ message: 'Переданы некорректные данные для постановки/снятии лайка.' });
+        next(new BadRequestError('Переданы некорректные данные для постановки/снятии лайка.'));
       }
       if (err.name === 'DocumentNotFoundError') {
-        return res.status(responseCodes.NOT_FOUND).send({ message: 'Передан несуществующий _id карточки.' });
+        next(new NotFoundError('Передан несуществующий _id карточки.'));
       }
-      return res.status(responseCodes.INTERNAL_SERVER_ERROR).send({ message: 'На сервере произошла ошибка' });
+      next();
     });
 };
 
-const dislikeCard = (req, res) => {
+const dislikeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $pull: { likes: req.user._id } },
@@ -68,12 +73,12 @@ const dislikeCard = (req, res) => {
     .then((card) => res.send(card))
     .catch((err) => {
       if (err.name === 'CastError') {
-        return res.status(responseCodes.BAD_REQUEST).send({ message: 'Переданы некорректные данные для постановки/снятии лайка.' });
+        next(new BadRequestError('Переданы некорректные данные для постановки/снятии лайка.'));
       }
       if (err.name === 'DocumentNotFoundError') {
-        return res.status(responseCodes.NOT_FOUND).send({ message: 'Передан несуществующий _id карточки.' });
+        next(new NotFoundError('Передан несуществующий _id карточки.'));
       }
-      return res.status(responseCodes.INTERNAL_SERVER_ERROR).send({ message: 'На сервере произошла ошибка' });
+      next();
     });
 };
 
