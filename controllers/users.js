@@ -16,7 +16,7 @@ const createUser = (req, res, next) => {
       userData.password = hash;
       return User.create(userData);
     })
-    .then(({ password, ...user }) => res.status(responseCodes.CREATED).send(user))
+    .then((user) => res.status(responseCodes.CREATED).send(user))
     .catch((err) => {
       if (err.code === 11000) {
         next(new ConflictError('Пользователь с таким email уже существует.'));
