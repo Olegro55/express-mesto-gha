@@ -4,8 +4,9 @@ const jwt = require('jsonwebtoken');
 const { statusCodes } = require('../utils/constants');
 const {
   BadRequestError,
-  NotFoundError,
   ConflictError,
+  NotFoundError,
+  UnauthorizedError
 } = require('../errors');
 
 const User = require('../models/user');
@@ -40,7 +41,7 @@ const login = (req, res, next) => {
 
       res.send({ token });
     })
-    .catch(next);
+    .catch((err) => next(new UnauthorizedError(err.message)));
 };
 
 const getUsers = (_, res, next) => {
