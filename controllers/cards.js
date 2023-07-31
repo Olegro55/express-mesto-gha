@@ -33,9 +33,9 @@ const deleteCard = (req, res, next) => {
         return next(new ForbiddenError('Forbidden.'));
       }
 
-      return Card.findByIdAndRemove(req.params.cardId);
+      return Card.findByIdAndRemove(req.params.cardId)
+        .then((deletedCard) => res.send(deletedCard));
     })
-    .then((deletedCard) => res.send(deletedCard))
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
         next(new NotFoundError('Карточка с указанным _id не найдена.'));
