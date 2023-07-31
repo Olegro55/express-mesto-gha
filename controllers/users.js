@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// const { statusCodes } = require('../utils/constants');
+const { statusCodes } = require('../utils/constants');
 const {
   BadRequestError,
   NotFoundError,
@@ -17,7 +17,7 @@ const createUser = (req, res, next) => {
       userData.password = hash;
       return User.create(userData);
     })
-    .then((user) => res.send(user))
+    .then((user) => res.status(statusCodes.CREATED).send(user))
     .catch((err) => {
       if (err.code === 11000) {
         next(new ConflictError('Пользователь с таким email уже существует.'));
