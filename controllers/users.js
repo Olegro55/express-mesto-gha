@@ -4,6 +4,7 @@ const responseCodes = require('../utils/constants');
 const {
   BadRequestError,
   NotFoundError,
+  ConflictError,
 } = require('../errors');
 
 const User = require('../models/user');
@@ -15,8 +16,11 @@ const createUser = (req, res, next) => {
       userData.password = hash;
       return User.create(userData);
     })
-    .then((user) => res.status(responseCodes.CREATED).send(user))
+    .then(({ password, ...user }) => res.status(responseCodes.CREATED).send(user))
     .catch((err) => {
+      if (err.code === 11000) {
+        next(new ConflictError('Пользователь с таким email уже существует.'));
+      }
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Переданы некорректные данные при создании пользователя.'));
       }
