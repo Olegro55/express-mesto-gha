@@ -6,7 +6,7 @@ const {
   BadRequestError,
   ConflictError,
   NotFoundError,
-  UnauthorizedError
+  UnauthorizedError,
 } = require('../errors');
 
 const User = require('../models/user');

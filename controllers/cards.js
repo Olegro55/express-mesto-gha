@@ -30,7 +30,7 @@ const deleteCard = (req, res, next) => {
   Card.findById(req.params.cardId).orFail()
     .then((deletedCard) => {
       if (deletedCard.owner.toString() !== req.user._id) {
-        next(new ForbiddenError('Forbidden.'));
+        return next(new ForbiddenError('Forbidden.'));
       }
 
       return res.send(deletedCard);
