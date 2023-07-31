@@ -22,8 +22,14 @@ const createCard = (req, res) => {
 };
 
 const deleteCard = (req, res) => {
-  Card.findByIdAndRemove(req.params.cardId).orFail()
-    .then((deletedCard) => res.send(deletedCard))
+  Card.findById(req.params.cardId).orFail()
+    .then((deletedCard) => {
+      if (deletedCard.owner.toString() !== req.user._id) {
+        return res.status(responseCodes.FORBIDDEN).send({ message: 'Forbidden.' });
+      }
+
+      return res.send(deletedCard);
+    })
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
         return res.status(responseCodes.NOT_FOUND).send({ message: 'Карточка с указанным _id не найдена.' });
