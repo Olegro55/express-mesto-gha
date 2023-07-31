@@ -35,13 +35,13 @@ const login = (req, res, next) => {
 
       res.send({ token });
     })
-    .catch(next());
+    .catch(next);
 };
 
 const getUsers = (_, res, next) => {
   User.find({})
     .then((users) => res.send(users))
-    .catch(next());
+    .catch(next);
 };
 
 const getUser = (req, res, next) => {
