@@ -1,9 +1,11 @@
-const error = (err, req, res) => {
+const error = (err, req, res, next) => {
   if (err.statusCode) {
-    return res.status(err.statusCode).send({ message: err.message });
+    res.status(err.statusCode).send({ message: err.message });
+    return next();
   }
 
-  return res.status(500).send({ message: 'На сервере произошла ошибка' });
+  res.status(500).send({ message: 'На сервере произошла ошибка' });
+  return next();
 };
 
 module.exports = error;
