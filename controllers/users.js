@@ -71,9 +71,6 @@ const getCurrentUser = (req, res, next) => {
       if (err.name === 'DocumentNotFoundError') {
         next(new NotFoundError('Пользователь по указанному _id не найден.'));
       }
-      if (err.name === 'CastError') {
-        next(new BadRequestError('Переданы некорректные данные.'));
-      }
       next();
     });
 };
@@ -93,7 +90,7 @@ const updateUser = (req, res, next) => {
 };
 
 const updateAvatar = (req, res, next) => {
-  User.findByIdAndUpdate(req.user._id, req.body, { new: true, runValidators: true })
+  User.findByIdAndUpdate(req.user._id, req.body, { new: true, runValidators: true }).orFail()
     .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
