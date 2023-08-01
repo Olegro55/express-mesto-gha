@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { linkRegex } = require('../utils/constants');
 
 const cardSchema = new mongoose.Schema(
   {
@@ -11,6 +12,7 @@ const cardSchema = new mongoose.Schema(
     link: {
       type: String,
       required: true,
+      match: linkRegex,
     },
     owner: {
       type: mongoose.Schema.Types.ObjectId,

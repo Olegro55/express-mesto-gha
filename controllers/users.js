@@ -6,7 +6,6 @@ const {
   BadRequestError,
   ConflictError,
   NotFoundError,
-  UnauthorizedError,
 } = require('../errors');
 
 const User = require('../models/user');
@@ -41,7 +40,7 @@ const login = (req, res, next) => {
 
       res.send({ token });
     })
-    .catch((err) => next(new UnauthorizedError(err.message)));
+    .catch(next);
 };
 
 const getUsers = (_, res, next) => {
