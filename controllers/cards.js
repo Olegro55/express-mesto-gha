@@ -33,7 +33,7 @@ const deleteCard = (req, res, next) => {
         return next(new ForbiddenError('Forbidden.'));
       }
 
-      return Card.findByIdAndRemove(req.params.cardId)
+      return card.deleteOne()
         .then((deletedCard) => res.send(deletedCard));
     })
     .catch((err) => {
